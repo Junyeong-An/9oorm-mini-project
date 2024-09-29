@@ -14,16 +14,13 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         distribution: 'adopt'
         java-version: '17'
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
 
     - name: Build with Gradle
       run: ./gradlew clean build -x test
@@ -36,7 +33,7 @@ jobs:
         cp build/libs/*.jar before-deploy/
         cd before-deploy && zip -r before-deploy *
         cd ../ && mkdir -p deploy
-        mv before-deploy/before-deploy.zip deploy/goorm-mini-project.zip
+        mv before-deploy/before-deploy.zip deploy/goorm.zip
 
     - name: Deploy to S3 (GitHub Artifacts)
       uses: actions/upload-artifact@v3
@@ -52,12 +49,12 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: S3에 배포
-      run: aws s3 cp deploy/goorm-mini-project.zip s3://goorm-mini-project/goorm-mini-project.zip
+      run: aws s3 cp deploy/goorm.zip s3://goorm-mini-project/goorm.zip
 
     - name: AWS CodeDeploy를 사용한 배포
       run: |
         aws deploy create-deployment \
           --application-name goorm-deploy \
           --deployment-group-name goorm-deploy-group \
-          --s3-location bucket=goorm-mini-project,key=goorm-mini-project.zip,bundleType=zip \
+          --s3-location bucket=goorm-mini-project,key=goorm.zip,bundleType=zip \
           --region ap-northeast-2
