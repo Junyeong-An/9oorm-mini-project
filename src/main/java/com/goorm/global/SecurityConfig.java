@@ -14,10 +14,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/**") // 모든 경로에 대해서 CSRF 비활성화
+                )
                 .authorizeHttpRequests(authz -> authz
                         .anyRequest().permitAll()
                 );
         return http.build();
     }
+
+
 }
