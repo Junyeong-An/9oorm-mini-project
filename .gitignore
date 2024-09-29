@@ -37,3 +37,6 @@ out/
 .vscode/
 /src/main/resources/application-prod.yml
 /src/main/resources/application-oauth2.yml
+/src/main/resources/config.tgz
+/src/main/resources/application-real2.yml
+/src/main/resources/application-real1.yml
