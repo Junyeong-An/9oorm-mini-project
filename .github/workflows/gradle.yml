@@ -22,6 +22,9 @@ jobs:
         distribution: 'adopt'
         java-version: '17'
 
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
     - name: Build with Gradle
       run: ./gradlew clean build -x test
 
@@ -49,7 +52,7 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: S3에 배포
-      run: aws s3 cp deploy/goorm-mini-project.zip s3://goorm-build/goorm-mini-project.zip
+      run: aws s3 cp deploy/goorm-mini-project.zip s3://goorm-mini-project/goorm-mini-project.zip
 
     - name: AWS CodeDeploy를 사용한 배포
       run: |
