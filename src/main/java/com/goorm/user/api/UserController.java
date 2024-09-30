@@ -1,6 +1,7 @@
 package com.goorm.user.api;
 
 import com.goorm.user.api.dto.request.UserJoinRequestDto;
+import com.goorm.user.api.dto.request.UserLoginRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(UserJoinRequestDto userJoinRequestDto) {
+    public ResponseEntity<?> login(UserLoginRequestDto userLoginRequestDto) {
         return ResponseEntity.ok().build();
     }
 
