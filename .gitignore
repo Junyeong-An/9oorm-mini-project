@@ -39,3 +39,4 @@ out/
 .DS_Store
 application-*.yml
 thumbs.db
+config.tgz
