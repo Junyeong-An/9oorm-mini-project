@@ -1,26 +1,35 @@
 package com.goorm.user.api;
 
+import com.goorm.global.api.response.ApiResponse;
 import com.goorm.user.api.dto.request.UserJoinRequestDto;
 import com.goorm.user.api.dto.request.UserLoginRequestDto;
+import com.goorm.user.application.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "회원가입/로그인", description = "회원가입, 로그인, 로그아웃, 회원탈퇴, 프로필 조회를 담당하는 api 그룹")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
+
+    private final UserService userService;
 
     @PostMapping("/join")
     @Operation(
             summary = "자체 회원가입",
             description = "자체 회원가입을 수행합니다."
     )
-    public ResponseEntity<?> join(UserJoinRequestDto userJoinRequestDto) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ApiResponse<?>> join(@RequestBody UserJoinRequestDto userJoinRequestDto) {
+        ApiResponse<?> join = userService.join(userJoinRequestDto);
+        return ResponseEntity.status(join.getStatusCode()).body(join);
     }
 
     @PostMapping("/login")
@@ -28,7 +37,7 @@ public class UserController {
             summary = "자체 로그인",
             description = "자체 로그인을 수행합니다. accessToken, refreshToken을 발급하여 반환합니다."
     )
-    public ResponseEntity<?> login(UserLoginRequestDto userLoginRequestDto) {
+    public ResponseEntity<?> login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
         return ResponseEntity.ok().build();
     }
 

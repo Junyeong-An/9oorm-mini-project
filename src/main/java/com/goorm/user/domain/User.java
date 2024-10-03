@@ -10,10 +10,14 @@ import jakarta.persistence.Table;
 import java.util.List;
 import com.goorm.comment.domain.Comment;
 import com.goorm.post.domain.Post;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Users")
+@NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -38,6 +42,19 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
+
+    @Builder
+    private User(Integer userId, String id, String name, String email, String nickname, String password,
+                 Integer year, String universityName) {
+        this.userId = userId;
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.year = year;
+        this.universityName = universityName;
+    }
 
 
 }
