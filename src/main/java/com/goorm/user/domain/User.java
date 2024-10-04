@@ -11,10 +11,12 @@ import java.util.List;
 import com.goorm.comment.domain.Comment;
 import com.goorm.post.domain.Post;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Users")
+@Getter
 @NoArgsConstructor
 public class User {
 
@@ -54,6 +56,10 @@ public class User {
         this.password = password;
         this.year = year;
         this.universityName = universityName;
+    }
+
+    public boolean isMatchPassword(String password) {
+        return this.password.equals(password);
     }
 
 

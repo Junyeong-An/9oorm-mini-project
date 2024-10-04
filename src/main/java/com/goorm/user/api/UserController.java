@@ -37,8 +37,9 @@ public class UserController {
             summary = "자체 로그인",
             description = "자체 로그인을 수행합니다. accessToken, refreshToken을 발급하여 반환합니다."
     )
-    public ResponseEntity<?> login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ApiResponse> login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+        ApiResponse<?> login = userService.login(userLoginRequestDto);
+        return ResponseEntity.status(login.getStatusCode()).body(login);
     }
 
     @PostMapping("/{provider}/token")
