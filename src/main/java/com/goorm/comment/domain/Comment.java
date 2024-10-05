@@ -8,8 +8,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import com.goorm.post.domain.Post;
 import com.goorm.user.domain.User;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Comment {
 
     @Id

@@ -1,28 +1,52 @@
 package com.goorm.global;
 
+import com.goorm.global.jwt.JwtFilter;
+import com.goorm.global.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity
-@AllArgsConstructor
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final TokenProvider tokenprovider;
+
+    private final String[] PERMIT_ALL_URLS = {
+            "/kakao/token",
+            "/google/token",
+            "/auth",
+            "/user/**",
+            "/boards/**",
+            "/posts/**",
+            "/myPost",
+            "/myComment",
+            "swagger-ui/**",
+            "v3/api-docs/**"
+    };
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/**") // 모든 경로에 대해서 CSRF 비활성화
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(PERMIT_ALL_URLS).permitAll()
+                        .anyRequest().authenticated()
                 )
-                .authorizeHttpRequests(authz -> authz
-                        .anyRequest().permitAll()
-                );
-        return http.build();
+                .addFilterBefore(new JwtFilter(tokenprovider), UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
-
 }
+

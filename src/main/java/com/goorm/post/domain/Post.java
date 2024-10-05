@@ -8,11 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.goorm.board.domain.Board;
 import com.goorm.comment.domain.Comment;
 import com.goorm.user.domain.User;
+import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 
+@Getter
 @Entity
 public class Post {
 
@@ -25,11 +29,7 @@ public class Post {
 
     private String content;
 
-    private String author;
-
     private Integer votes;
-
-    private Integer commentCount;
 
     private boolean isAnonymous;
 
@@ -43,5 +43,8 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
 }

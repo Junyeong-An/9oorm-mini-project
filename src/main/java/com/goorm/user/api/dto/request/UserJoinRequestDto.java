@@ -1,5 +1,6 @@
 package com.goorm.user.api.dto.request;
 
+import com.goorm.user.domain.RoleType;
 import com.goorm.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -37,6 +38,7 @@ public record UserJoinRequestDto(
                         .email(this.email)
                         .id(this.id)
                         .password(this.password)
+                        .roleType(RoleType.ROLE_USER)
                         .build();
         }
 }

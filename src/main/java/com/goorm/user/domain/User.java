@@ -2,6 +2,8 @@ package com.goorm.user.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "User")
 @Getter
 @NoArgsConstructor
 public class User {
@@ -45,9 +47,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RoleType roleType;
+
     @Builder
     private User(Integer userId, String id, String name, String email, String nickname, String password,
-                 Integer year, String universityName) {
+                 Integer year, String universityName, RoleType roleType) {
         this.userId = userId;
         this.id = id;
         this.name = name;
@@ -56,6 +62,7 @@ public class User {
         this.password = password;
         this.year = year;
         this.universityName = universityName;
+        this.roleType = roleType;
     }
 
     public boolean isMatchPassword(String password) {

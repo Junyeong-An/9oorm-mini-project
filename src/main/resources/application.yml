@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod,oauth2
+    active: prod
   datasource:
     url: ${spring.datasource.url}
     username: ${spring.datasource.username}
@@ -10,9 +10,12 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: false
         use_sql_comments: true
+  sql:
+    init:
+      mode: always
