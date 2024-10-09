@@ -61,3 +61,5 @@ jobs:
           --deployment-group-name goorm-deploy-group \
           --s3-location bucket=goorm-mini-project,key=goorm.zip,bundleType=zip \
           --region ap-northeast-2
+
+          
